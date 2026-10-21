@@ -249,7 +249,8 @@ func (w *WorkerDelegate) generateMachineConfig(ctx context.Context) error {
 
 			if cpuOptions := workerConfig.CpuOptions; cpuOptions != nil {
 				machineClassProviderSpec.CPUOptions = &awsmachineapi.CPUOptions{
-					AmdSevSnp: cpuOptions.AmdSevSnp,
+					AmdSevSnp:            cpuOptions.AmdSevSnp,
+					NestedVirtualization: cpuOptions.NestedVirtualization,
 				}
 
 				if cpuOptions.CoreCount != nil && cpuOptions.ThreadsPerCore != nil {
@@ -743,6 +744,9 @@ func appendHashDataForWorkerConfig(hashData []string, workerConfig *awsapi.Worke
 		}
 		if workerConfig.CpuOptions.ThreadsPerCore != nil {
 			hashData = append(hashData, strconv.FormatInt(int64(*workerConfig.CpuOptions.ThreadsPerCore), 10))
+		}
+		if workerConfig.CpuOptions.NestedVirtualization != nil {
+			hashData = append(hashData, "nestedVirtualization="+*workerConfig.CpuOptions.NestedVirtualization)
 		}
 	}
 

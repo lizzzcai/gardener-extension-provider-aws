@@ -331,6 +331,18 @@ func validateCpuOptions(cpuOptions *apisaws.CpuOptions, fldPath *field.Path) fie
 		}
 	}
 
+	if cpuOptions.NestedVirtualization != nil {
+		nestedVirt := ec2types.NestedVirtualizationSpecification(*cpuOptions.NestedVirtualization)
+		allowed := nestedVirt.Values()
+		if !slices.Contains(allowed, nestedVirt) {
+			allErrs = append(allErrs, field.NotSupported(
+				fldPath.Child("nestedVirtualization"),
+				nestedVirt,
+				allowed,
+			))
+		}
+	}
+
 	coreSet := cpuOptions.CoreCount != nil
 	threadsSet := cpuOptions.ThreadsPerCore != nil
 

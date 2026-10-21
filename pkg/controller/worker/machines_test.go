@@ -1583,6 +1583,29 @@ var _ = Describe("Machines", func() {
 						Expect(err).NotTo(HaveOccurred())
 						Expect(got).To(Equal(want))
 					})
+
+					It("should include nestedVirtualization in hash data when set", func() {
+						pool.KubernetesVersion = ptr.To("1.34.0")
+						workerConfig.NodeTemplate = &extensionsv1alpha1.NodeTemplate{
+							Capacity: w.Spec.Pools[0].NodeTemplate.Capacity.DeepCopy(),
+						}
+						workerConfig.CpuOptions.NestedVirtualization = ptr.To("enabled")
+
+						got, err := ComputeAdditionalHashDataV2(pool, &workerConfig)
+						Expect(err).NotTo(HaveOccurred())
+						Expect(got).To(ContainElement("nestedVirtualization=enabled"))
+					})
+
+					It("should not include nestedVirtualization in hash data when nil", func() {
+						pool.KubernetesVersion = ptr.To("1.34.0")
+						workerConfig.NodeTemplate = &extensionsv1alpha1.NodeTemplate{
+							Capacity: w.Spec.Pools[0].NodeTemplate.Capacity.DeepCopy(),
+						}
+
+						got, err := ComputeAdditionalHashDataV2(pool, &workerConfig)
+						Expect(err).NotTo(HaveOccurred())
+						Expect(got).NotTo(ContainElement(ContainSubstring("nestedVirtualization=")))
+					})
 				})
 
 				Describe("ComputeAdditionalHashDataInPlace", func() {

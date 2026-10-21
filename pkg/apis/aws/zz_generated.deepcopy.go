@@ -194,6 +194,11 @@ func (in *CpuOptions) DeepCopyInto(out *CpuOptions) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NestedVirtualization != nil {
+		in, out := &in.NestedVirtualization, &out.NestedVirtualization
+		*out = new(string)
+		**out = **in
+	}
 	return
 }
 

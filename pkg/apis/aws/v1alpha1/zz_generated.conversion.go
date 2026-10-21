@@ -573,6 +573,7 @@ func autoConvert_v1alpha1_CpuOptions_To_aws_CpuOptions(in *CpuOptions, out *aws.
 	out.CoreCount = (*int32)(unsafe.Pointer(in.CoreCount))
 	out.ThreadsPerCore = (*int32)(unsafe.Pointer(in.ThreadsPerCore))
 	out.AmdSevSnp = (*string)(unsafe.Pointer(in.AmdSevSnp))
+	out.NestedVirtualization = (*string)(unsafe.Pointer(in.NestedVirtualization))
 	return nil
 }
 
@@ -585,6 +586,7 @@ func autoConvert_aws_CpuOptions_To_v1alpha1_CpuOptions(in *aws.CpuOptions, out *
 	out.CoreCount = (*int32)(unsafe.Pointer(in.CoreCount))
 	out.ThreadsPerCore = (*int32)(unsafe.Pointer(in.ThreadsPerCore))
 	out.AmdSevSnp = (*string)(unsafe.Pointer(in.AmdSevSnp))
+	out.NestedVirtualization = (*string)(unsafe.Pointer(in.NestedVirtualization))
 	return nil
 }
 

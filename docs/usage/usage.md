@@ -665,6 +665,9 @@ You can find more information regarding the options in the [AWS documentation](h
 If set to `enabled`, the instance will be launched with AMD SEV-SNP enabled. 
 Only certain instance types support this feature. 
 For more information, please refer to the [AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amd-sev-snp.html).
+- `nestedVirtualization`: Possible values are `enabled` or `disabled`.
+Allows running hypervisors such as Hyper-V and KVM inside virtual EC2 instances.
+Only supported on selected instance types. For more information, please refer to the [AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nested-virtualization.html).
 
 Note that if you decide to configure `cpuOptions` _both_ these values need to be provided. For a list of valid combinations of these values refer to the [AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html).
 

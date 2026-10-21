@@ -300,6 +300,18 @@ string
 <p>AmdSevSnp indicates whether AMD SEV-SNP is enabled.<br />Currently, this option is only supported on M6a, R6a, and C6a instance types.<br />Valid options are "enabled" and "disabled".</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>nestedVirtualization</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>NestedVirtualization allows running hypervisors such as Hyper-V and KVM inside virtual EC2 instances.<br />Only supported on selected instance types.<br />Valid options are "enabled" and "disabled".</p>
+</td>
+</tr>
 
 </tbody>
 </table>

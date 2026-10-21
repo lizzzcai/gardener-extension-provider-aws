@@ -171,6 +171,11 @@ type CpuOptions struct {
 	// Valid options are "enabled" and "disabled".
 	// +optional
 	AmdSevSnp *string `json:"amdSevSnp"`
+	// NestedVirtualization allows running hypervisors such as Hyper-V and KVM inside virtual EC2 instances.
+	// Only supported on selected instance types.
+	// Valid options are "enabled" and "disabled".
+	// +optional
+	NestedVirtualization *string `json:"nestedVirtualization,omitempty"`
 }
 
 // CapacityReservation contains configuration about the Capacity Reservation to use for the instance.

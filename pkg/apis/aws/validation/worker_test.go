@@ -544,6 +544,45 @@ var _ = Describe("ValidateWorkerConfig", func() {
 				Expect(validate(wc)).To(BeEmpty())
 			})
 
+			It("should reject invalid NestedVirtualization value", func() {
+				v := "invalid"
+				wc := &apisaws.WorkerConfig{
+					CpuOptions: &apisaws.CpuOptions{
+						NestedVirtualization: ptr.To(v),
+					},
+				}
+				errs := validate(wc)
+
+				allowed := ec2types.NestedVirtualizationSpecificationEnabled.Values()
+				quoted := make([]string, len(allowed))
+				for i, v := range allowed {
+					quoted[i] = fmt.Sprintf("%q", v)
+				}
+				Expect(errs).To(ConsistOf(PointTo(MatchFields(IgnoreExtras, Fields{
+					"Type":   Equal(field.ErrorTypeNotSupported),
+					"Field":  Equal("config.cpuOptions.nestedVirtualization"),
+					"Detail": Equal(fmt.Sprintf("supported values: %s", strings.Join(quoted, ", "))),
+				}))))
+			})
+
+			It("should accept valid NestedVirtualization value 'enabled'", func() {
+				wc := &apisaws.WorkerConfig{
+					CpuOptions: &apisaws.CpuOptions{
+						NestedVirtualization: ptr.To("enabled"),
+					},
+				}
+				Expect(validate(wc)).To(BeEmpty())
+			})
+
+			It("should accept valid NestedVirtualization value 'disabled'", func() {
+				wc := &apisaws.WorkerConfig{
+					CpuOptions: &apisaws.CpuOptions{
+						NestedVirtualization: ptr.To("disabled"),
+					},
+				}
+				Expect(validate(wc)).To(BeEmpty())
+			})
+
 			It("should report only the invalid ThreadsPerCore error when both counts are set but ThreadsPerCore invalid", func() {
 				wc := &apisaws.WorkerConfig{
 					CpuOptions: &apisaws.CpuOptions{
@@ -562,9 +601,10 @@ var _ = Describe("ValidateWorkerConfig", func() {
 			It("should return no errors for a fully valid configuration", func() {
 				wc := &apisaws.WorkerConfig{
 					CpuOptions: &apisaws.CpuOptions{
-						CoreCount:      ptr.To[int32](8),
-						ThreadsPerCore: ptr.To[int32](2),
-						AmdSevSnp:      ptr.To("enabled"),
+						CoreCount:            ptr.To[int32](8),
+						ThreadsPerCore:       ptr.To[int32](2),
+						AmdSevSnp:            ptr.To("enabled"),
+						NestedVirtualization: ptr.To("enabled"),
 					},
 				}
 				Expect(validate(wc)).To(BeEmpty())
